@@ -38,7 +38,7 @@ function HomeScreen({ navigation }) {
         onPress={() => navigation.navigate('Details')}
       />
       <Button
-        title="Show Dialig"
+        title="Show Dialog"
         onPress={() => navigation.navigate('Dialog')}
       />
     </View>
@@ -65,10 +65,10 @@ function Notifications() {
   );
 }
 
-function ModalScreen({ navigation }) {
+function DialogScreen({ navigation }) {
   return (
-    <View style={{ width: '100%', height:'100%', alignItems: 'center', justifyContent: 'center', position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
-      <View style={{ width: '80%', height: '80%', alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ width: '100%', height: '100%', alignItems: 'center', justifyContent: 'center', position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
+      <View style={{ width: '80%', height: '60%', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', borderRadius: 12 }}>
         <Text style={{ fontSize: 30 }}>This is a modal!</Text>
         <Button onPress={() => navigation.goBack()} title="Dismiss" />
       </View>
@@ -82,6 +82,7 @@ const HomeStack = createStackNavigator()
 const SettingsStack = createStackNavigator()
 const ModalStack = createStackNavigator()
 const RootStack = createStackNavigator()
+const Stack = createStackNavigator()
 
 function RootTabs() {
   return (
@@ -141,23 +142,48 @@ function RootTabs() {
   );
 }
 
-const Dialog = () => {
-  return (<ModalStack.Navigator>
-    <RootStack.Screen name="Dialog" component={ModalScreen} />
-  </ModalStack.Navigator>
+const RootDialog = () => {
+  return (<ModalStack.Screen
+    name="Dialog"
+    component={DialogScreen}
+    options={{
+      headerShown: false,
+      animationEnabled: true,
+      cardStyle: { backgroundColor: 'rgba(0, 0, 0, 0.15)' },
+      cardOverlayEnabled: true,
+      cardStyleInterpolator: ({ current: { progress } }) => {
+        return {
+          cardStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 0.5, 0.9, 1],
+              outputRange: [0, 0.25, 0.7, 1],
+            }),
+          },
+          overlayStyle: {
+            opacity: progress.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 0.5],
+              extrapolate: 'clamp',
+            }),
+          },
+        };
+      },
+    }} />
   )
 }
 
 export default function App() {
   return (
     <NavigationContainer>
-      <RootStack.Navigator mode="modal" headerMode="none">
+      <RootStack.Navigator headerMode="none">
         <RootStack.Screen name="Main">
           {() => (
             RootTabs()
           )}
         </RootStack.Screen>
-        <RootStack.Screen name="Dialog" component={ModalScreen} />
+        {
+          RootDialog()
+        }
       </RootStack.Navigator>
     </NavigationContainer>
   );
