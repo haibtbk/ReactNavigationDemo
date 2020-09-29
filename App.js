@@ -1,9 +1,14 @@
 import * as React from 'react';
+import { Component, useRef } from 'react'
 import { Text, View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import EntypoIcon from 'react-native-vector-icons/FontAwesome';
 import { createStackNavigator } from '@react-navigation/stack';
+import FabManager from './src/fab/FabManager'
+import FabButton from './src/fab/FabButton';
+import FabLightbox from './src/fab/FabLightbox'
+
 
 function SettingsScreen({ navigation }) {
   return (
@@ -17,6 +22,34 @@ function SettingsScreen({ navigation }) {
   );
 }
 
+function LoginScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Login Screen</Text>
+      <Button
+        title="Click to Login "
+        onPress={() => navigation.navigate('Main')}
+      />
+      <Button
+        title="Click to Signup "
+        onPress={() => navigation.navigate('SignUp')}
+      />
+    </View>
+  );
+}
+
+function SigupScreen({ navigation }) {
+  return (
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+      <Text>Signup Screen</Text>
+      <Button
+        title="Click to Login Screen "
+        onPress={() => navigation.navigate('Login')}
+      />
+    </View>
+  );
+}
+
 function ProfileScreen({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -24,6 +57,10 @@ function ProfileScreen({ navigation }) {
       <Button
         title="Go to Settings"
         onPress={() => navigation.navigate('Settings')}
+      />
+      <Button
+        title="Show Dialog"
+        onPress={() => navigation.navigate('Dialog')}
       />
     </View>
   );
@@ -52,6 +89,10 @@ function DetailsScreen({ navigation }) {
       <Button
         title="Go to Details... again"
         onPress={() => navigation.push('Details')}
+      />
+      <Button
+        title="Show Dialog"
+        onPress={() => navigation.navigate('Dialog')}
       />
     </View>
   );
@@ -83,11 +124,11 @@ const SettingsStack = createStackNavigator()
 const ModalStack = createStackNavigator()
 const RootStack = createStackNavigator()
 const Stack = createStackNavigator()
+const StackFab = createStackNavigator()
 
 function RootTabs() {
   return (
     <Tab.Navigator
-      // initialRouteName="Root"
       tabBarOptions={{
         activeTintColor: '#e91e63',
       }}
@@ -172,19 +213,67 @@ const RootDialog = () => {
   )
 }
 
-export default function App() {
+const navigationRef = React.createRef();
+
+
+export default App = (props, fabRef) => {
+  React.useEffect(() => {
+    FabManager.register(fabRef)
+    return () => {
+      FabManager.unRegister()
+    }
+  }, [fabRef])
+
   return (
-    <NavigationContainer>
-      <RootStack.Navigator headerMode="none">
-        <RootStack.Screen name="Main">
-          {() => (
-            RootTabs()
-          )}
-        </RootStack.Screen>
-        {
-          RootDialog()
-        }
-      </RootStack.Navigator>
+
+    <NavigationContainer ref={navigationRef}>
+      <View style={{ width: '100%', height: '100%' }}>
+        <RootStack.Navigator headerMode="none">
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen} />
+          <Stack.Screen
+            name="SignUp"
+            component={SigupScreen} />
+          <RootStack.Screen name="Main">
+            {() => (
+              RootTabs()
+            )}
+          </RootStack.Screen>
+          {
+            RootDialog()
+          }
+          <Stack.Screen
+            name="fab"
+            component={FabLightbox}
+            options={{
+              headerShown: false,
+              animationEnabled: true,
+              cardStyle: { backgroundColor: 'rgba(0, 0, 0, 0.15)' },
+              cardOverlayEnabled: true,
+              cardStyleInterpolator: ({ current: { progress } }) => {
+                return {
+                  cardStyle: {
+                    opacity: progress.interpolate({
+                      inputRange: [0, 0.5, 0.9, 1],
+                      outputRange: [0, 0.25, 0.7, 1],
+                    }),
+                  },
+                  overlayStyle: {
+                    opacity: progress.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, 0.5],
+                      extrapolate: 'clamp',
+                    }),
+                  },
+                };
+              },
+            }} />
+        </RootStack.Navigator>
+
+        <FabButton innerRef={fabRef} navigationRef={navigationRef} />
+      </View>
     </NavigationContainer>
+
   );
 }
