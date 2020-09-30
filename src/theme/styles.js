@@ -45,7 +45,7 @@ const appStylesBase = {
 
     fabButton: {
         position: 'absolute',
-        bottom: 80,
+        bottom: 90,
         right: 32,
         width: 50,
         height: 50,

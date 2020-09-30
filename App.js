@@ -15,7 +15,7 @@ function SettingsScreen({ navigation }) {
   useFocusEffect(
     React.useCallback(() => {
       // Do something when the screen is focused
-      setTimeout(() => { FabManager.show() }, 200)
+      setTimeout(() => { FabManager.show() }, 100)
 
       return () => {
         // Do something when the screen is unfocused
@@ -83,7 +83,7 @@ function HomeScreen({ navigation }) {
   useFocusEffect(
     React.useCallback(() => {
       // Do something when the screen is focused
-      setTimeout(() => { FabManager.show() }, 200)
+      setTimeout(() => { FabManager.show() }, 100)
       return () => {
         // Do something when the screen is unfocused
         // Useful for cleanup functions
@@ -126,7 +126,7 @@ function Notifications({ navigation }) {
   useFocusEffect(
     React.useCallback(() => {
       // Do something when the screen is focused
-      setTimeout(() => { FabManager.show() }, 200)
+      setTimeout(() => { FabManager.show() }, 100)
       return () => {
         // Do something when the screen is unfocused
         // Useful for cleanup functions
