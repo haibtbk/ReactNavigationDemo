@@ -40,6 +40,8 @@ class FabLightbox extends Component {
     this.navigation = props.navigation
   }
 
+  
+
   lightBoxItems = {
     addCustomer: {
       text: 'addProduct',
@@ -71,11 +73,13 @@ class FabLightbox extends Component {
   }
 
   componentDidMount() {
-
+    this._unsubscribe = this.props.navigation.addListener('focus', () => {
+      FabManager.show();
+    });
   }
 
-  componentDidUpdate(prevProps) {
-
+  componentWillUnmount() {
+    this._unsubscribe();
   }
 
   render() {

@@ -47,28 +47,30 @@ const FabButton = React.forwardRef((props, ref) => {
 
 
   return (
-    !visible ?
-      <View />
-      :
-      <Button
-        ref={ref}
-        rounded
-        style={[
-          AppStyles.fabButton,
-          {
-            backgroundColor: showLightbox ? AppColors.gray : AppColors.fabButton
-          }
-        ]}
-        onPress={() => shouldShowLightbox(!showLightbox)}
-      >
-        <Animatable.View duration={500} ref={rotatingView}>
-          <Icon name="add"
-            style={[AppStyles.fabIcon, {
-              color: AppColors.white,
-            }]} />
-        </Animatable.View>
-      </Button>
-
+    <View ref={ref}>
+      {
+        !visible ?
+          <View />
+          :
+          <Button
+            rounded
+            style={[
+              AppStyles.fabButton,
+              {
+                backgroundColor: showLightbox ? AppColors.gray : AppColors.fabButton
+              }
+            ]}
+            onPress={() => shouldShowLightbox(!showLightbox)}
+          >
+            <Animatable.View duration={500} ref={rotatingView}>
+              <Icon name="add"
+                style={[AppStyles.fabIcon, {
+                  color: AppColors.white,
+                }]} />
+            </Animatable.View>
+          </Button>
+      }
+    </View>
   )
 })
 
