@@ -8,9 +8,22 @@ import { createStackNavigator } from '@react-navigation/stack';
 import FabManager from './src/fab/FabManager'
 import FabButton from './src/fab/FabButton';
 import FabLightbox from './src/fab/FabLightbox'
+import { useFocusEffect } from '@react-navigation/native';
 
 
 function SettingsScreen({ navigation }) {
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+      setTimeout(() => { FabManager.show() }, 200)
+
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+        FabManager.hide()
+      };
+    }, [])
+  );
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Settings Screen</Text>
@@ -67,6 +80,17 @@ function ProfileScreen({ navigation }) {
 }
 
 function HomeScreen({ navigation }) {
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+      setTimeout(() => { FabManager.show() }, 200)
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+        FabManager.hide()
+      };
+    }, [])
+  );
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
@@ -98,7 +122,18 @@ function DetailsScreen({ navigation }) {
   );
 }
 
-function Notifications() {
+function Notifications({ navigation }) {
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+      setTimeout(() => { FabManager.show() }, 200)
+      return () => {
+        // Do something when the screen is unfocused
+        // Useful for cleanup functions
+        FabManager.hide()
+      };
+    }, [])
+  );
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
       <Text>Notifications!</Text>
