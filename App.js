@@ -216,9 +216,10 @@ const RootDialog = () => {
 const navigationRef = React.createRef();
 
 
-export default App = (props, fabRef) => {
+export default App = (props) => {
+  const fabRef = React.useRef()
   React.useEffect(() => {
-    FabManager.register(fabRef)
+    FabManager.register(fabRef.current)
     return () => {
       FabManager.unRegister()
     }
@@ -271,7 +272,7 @@ export default App = (props, fabRef) => {
             }} />
         </RootStack.Navigator>
 
-        <FabButton innerRef={fabRef} navigationRef={navigationRef} />
+        <FabButton ref={fabRef} navigationRef={navigationRef} />
       </View>
     </NavigationContainer>
 

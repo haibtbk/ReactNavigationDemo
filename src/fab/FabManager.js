@@ -8,7 +8,6 @@ import _ from 'lodash'
 module.exports = {
   _currentFab: null,
 
-
   register(fab) {
     this._currentFab = fab;
   },

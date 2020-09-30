@@ -7,7 +7,7 @@ import * as Animatable from 'react-native-animatable';
 import { View } from 'react-native'
 
 
-const FabButton = (props) => {
+const FabButton = React.forwardRef((props, ref) => {
 
   const [visible, setVisible] = React.useState(true)
   const [showLightbox, setShowLightbox] = React.useState(false)
@@ -48,6 +48,7 @@ const FabButton = (props) => {
       <View />
       :
       <Button
+        ref={ref}
         rounded
         style={[
           AppStyles.fabButton,
@@ -66,7 +67,8 @@ const FabButton = (props) => {
       </Button>
 
   )
-}
+})
+
 
 // export default FabButton
 export default FabButton;
