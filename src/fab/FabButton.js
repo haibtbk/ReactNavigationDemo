@@ -29,35 +29,23 @@ const FabButton = React.forwardRef((props, ref) => {
     }
   }
 
+  const reset = () => {
+    setShowLightbox(false)
+    rotatingView.current.transitionTo({ rotate: '0deg' });
+  }
+  const show = () => {
+    setVisible(true)
+  }
+  const hide = () => {
+    setVisible(false)
+  }
   React.useImperativeHandle(ref, () => ({
-    reset: () => {
-      // this.setState({ showLightbox: false });
-      setShowLightbox(false)
-      setShowLightbox(false)
-      rotatingView.current.transitionTo({ rotate: '0deg' });
-    },
-    show: () => {
-      setVisible(true)
-    },
-    hide: () => {
-      setVisible(false)
-    }
+    reset,
+    show,
+    hide
   }));
 
-  // const reset = () => {
-  //   // this.setState({ showLightbox: false });
-  //   setShowLightbox(false)
-  //   setShowLightbox(false)
-  //   rotatingView.curent.transitionTo({ rotate: '0deg' });
-  // }
 
-  // const show = () => {
-  //   setVisible(true)
-  // }
-
-  // const hide = () => {
-  //   setVisible(false)
-  // }
   return (
     !visible ?
       <View />
